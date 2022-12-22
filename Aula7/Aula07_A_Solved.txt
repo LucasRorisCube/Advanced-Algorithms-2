@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+#define MIN(a, b, c) std::min(std::min(a, b), c)
+
+long long alpha(long long i, long long j, string str1, string str2){
+  return (str1[i-1] == str2[j-1])? 0 : 1;
+}
+
+
+long long solve(long long i, long long j, string str1, string str2, vector<vector<long long>>& memo){
+
+  if(i == 0){
+    return memo[i][j] = j*1;
+  }
+  if(j == 0){
+    return memo[i][j] = i*1;
+  }
+
+  if(memo[i][j] != -1) return memo[i][j];
+
+  return memo[i][j] = MIN(alpha(i, j, str1, str2) + solve(i-1, j-1, str1, str2, memo), 1+ solve(i, j-1, str1, str2, memo), 1 + solve(i-1, j, str1, str2, memo));
+}
+
+int main() {
+
+
+  
+  int n, m;
+  string str1, str2;
+
+  while(cin >> n >> str1){
+    cin >> m >> str2;
+
+    vector<vector<long long>> memo(n+1, vector<long long>(m+1, -1));
+
+    cout << solve(n, m, str1, str2, memo) << endl;
+  }
+
+  
+
+  
+  
+}

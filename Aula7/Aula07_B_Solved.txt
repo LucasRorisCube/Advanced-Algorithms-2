@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+#define MAX(a, b, c) std::max(std::max(a, b), c)
+
+void printMemo(vector<vector<long long>>& memo){
+  for(long long i = 0 ; i < (long long)memo.size() ; ++i){
+    for(long long j = 0 ; j < (long long)memo[i].size() ; ++j){
+      cout << memo[i][j] << " ";
+    } 
+    cout << endl;
+  }
+}
+
+long long alpha(long long i, long long j, string str1, string str2){
+  return (str1[i-1] == str2[j-1])? 1 : 0;
+}
+
+
+long long solve(long long i, long long j, string str1, string str2, vector<vector<long long>>& memo){
+
+  if(i == 0){
+    return memo[i][j] = 0;
+  }
+  if(j == 0){
+    return memo[i][j] = 0;
+  }
+
+  if(memo[i][j] != -1) return memo[i][j];
+
+  return memo[i][j] = MAX(alpha(i, j, str1, str2) + solve(i-1, j-1, str1, str2, memo), solve(i, j-1, str1, str2, memo), solve(i-1, j, str1, str2, memo));
+}
+
+int main() {
+
+  string str1, str2;
+
+  getline(cin, str1);
+
+  long long caseTest = 1;
+
+  while(str1[0] != '#'){
+
+    getline(cin, str2);
+    //////////
+
+    long long n = (long long)str1.size();
+    long long m = (long long)str2.size();
+
+    vector<vector<long long>> memo(n+1, vector<long long>(m+1, -1));
+
+    long long answer = solve(n, m, str1, str2, memo);
+
+    printf("Case #%ld: you can visit at most %ld cities.\n", caseTest, answer);
+    caseTest++;
+
+    //printMemo(memo);
+
+
+    /////////
+
+    getline(cin, str1);
+  }
+  
+}

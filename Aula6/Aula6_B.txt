@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void printMemo(vector<long long>& memo){
+  for(long long i = 0 ; i < (long long)memo.size() ; i++){
+    cout << memo[i] << " ";
+  }
+  cout << endl;
+}
+
+int main() {
+
+  int num;
+  cin >> num;
+
+  long long test = 1;
+  do{
+
+    if(test > 1) cout << endl;
+    
+    vector<int> numbers;
+    do{
+      numbers.push_back(num);
+      cin >> num;
+    } while(num != -1);
+
+    // Code
+
+    long long lenArray = (int)numbers.size();
+    vector<long long> memo(lenArray+1, 1);
+
+    long long maxLIN = 0;
+    for( long long i = 1 ; i < lenArray ; i++){
+
+      long long maxValue = 0;
+      for( long long j = i-1 ; j >= 0 ; j--){
+        if(numbers[i] < numbers[j]){
+          maxValue = max(memo[j], maxValue);
+        }
+      }
+      memo[i] = maxValue + 1;
+      if(memo[i] > maxLIN){
+        maxLIN = memo[i];
+      }
+    }
+
+    //printMemo(memo);
+
+    cout << "Test #" << test << ":" << endl;
+    cout << "  maximum possible interceptions: " << maxLIN << endl;
+
+    // End code
+
+    cin >> num;
+  } while(num != -1);
+  
+}

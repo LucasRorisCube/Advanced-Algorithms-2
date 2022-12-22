@@ -1,0 +1,56 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+
+  int n;
+  cin >> n;
+  
+  while(n != 0){
+    map<vector<int>, int> datas;
+  
+    while(n > 0){
+  
+      vector<int> curses(5);
+      for(int i = 0 ; i < 5 ; i++){
+        int aux;
+        cin >> aux;
+        curses[i] = aux;
+      }
+  
+      sort(curses.begin(),curses.end());
+  
+      if(datas.find(curses) != datas.end()){
+        datas[curses] += 1;  
+      } else {
+        datas[curses] = 1;
+      }
+      
+      
+      n--;
+    }
+  
+    int max = 0;
+    for(auto i = datas.begin() ; i != datas.end() ; i++){
+      if(i->second > max){
+        max = i->second;
+      }
+    }
+
+    int resp = 0;
+    for(auto i = datas.begin() ; i != datas.end() ; i++){
+      if(i->second == max){
+        resp += max;
+      }
+    }
+    
+    cout << resp << endl;
+  
+    cin >> n;
+  }
+  
+}

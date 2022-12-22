@@ -1,0 +1,65 @@
+#include <iostream>
+#include <map>
+#include <set>
+#include <cmath>
+
+using namespace  std;
+
+int main() {
+  int n, l, w;
+
+  while(cin >> n >> l >> w){
+
+    set<pair<double,double>> numbers;
+    
+    for(int i = 0 ; i < n ; i++){
+      int n1, n2;
+      cin >> n1 >> n2;
+      if(n2 > (w/2.0)){
+        double dx = sqrt(pow(n2,2) - pow(w/2.0,2));
+        numbers.insert(pair<double,double>((double)(n1)-dx, (double)(n1)+dx));
+      }
+    }
+
+    int counter = 0;
+    double start = 0;
+    double possibleEnd = 0;
+    for(auto num = numbers.begin() ; num != numbers.end() ; num++){
+      //cout << num->first << "/" << num->second << endl;
+
+      if(start >= l){
+        break;
+      }
+      
+      if(num->first <= start){
+        if(num->second > possibleEnd){
+          possibleEnd = num->second;
+        }
+      } else {
+        if(possibleEnd != 0){
+          counter++;
+          start = possibleEnd;
+          num--;
+          //cout << "inseri o que termina em " << start << endl;
+          possibleEnd = 0;
+        } else {
+          counter = -1;
+          break;
+        }
+      }
+    }
+
+    if(possibleEnd != 0){
+      start = possibleEnd;
+      counter++;
+     // cout << "inseri o que termina em " << start << endl;
+    }
+
+    if(start < l){
+      counter = -1;
+    }
+  
+    cout << counter << endl;
+  }
+
+}

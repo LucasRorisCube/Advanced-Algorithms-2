@@ -1,0 +1,74 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void printMemo(vector<vector<long long>>& memo){
+  for(long long i = 0 ; i < (long long)memo.size() ; i++){
+    for(long long j = 0 ; j < (long long)memo[i].size() ; j++){
+      cout << memo[i][j] << " ";
+    }
+    cout << endl;
+  }
+}
+
+long long maxNum(long long a, long long b){
+  return (a > b)? a : b;
+}
+
+long long mochila(long long i, long long W, vector<int>& weights, vector<int>& prices, vector<vector<long long>>& memo){
+
+  if(i < 0) return 0;
+  if(memo[i][W] != -1) return memo[i][W];
+  if(weights[i] > W){
+      memo[i][W] = mochila(i-1, W, weights, prices, memo);
+      return memo[i][W];
+    }
+  
+  memo[i][W] = maxNum(mochila(i-1, W, weights, prices, memo), prices[i]+mochila(i-1, W-weights[i], weights, prices, memo));
+
+  return memo[i][W];
+}
+
+int main() {
+
+  int T;
+  cin >> T;
+
+  for(int t = 0 ; t < T ; t++){
+
+    int n;
+    cin >> n;
+
+    vector<int> weights(n);
+    vector<int> prices(n);
+
+    int maxWeight = -1;
+    for(int i = 0 ; i < n ; i++) {
+        cin >> prices[i] >> weights[i];
+      if(weights[i] > maxWeight) maxWeight = weights[i];
+      }
+
+    
+    
+    int g;
+    cin >> g;
+
+    long long answer = 0;
+    for(int i = 0 ; i < g ; i++) {
+      int aux;
+      cin >> aux;
+
+      vector<vector<long long>> memo(n+1, vector<long long>(maxWeight+1, -1));
+      
+      answer += mochila(n-1, aux, weights, prices, memo);
+      //cout << answer << endl;
+
+      //printMemo(memo);
+    }
+
+    cout << answer << endl;
+
+    
+  }
+}

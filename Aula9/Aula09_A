@@ -1,0 +1,116 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+#define ll long long
+
+using namespace std;
+
+string createTable(string str){
+
+  ll sizeStr = (ll)str.size();
+
+  vector<ll> kmp(sizeStr, 0);
+  ll maxKMP = 0;
+  
+  for(ll i = 1 ; i < sizeStr ; i++){
+
+    ll j = kmp[i-1];
+
+    while(j > 0 && str[i] != str[j]){
+      j = kmp[j-1];
+    }
+    if(str[i] == str[j]){
+      j++;
+    }
+    kmp[i] = j;
+    if(kmp[i] > maxKMP && i > sizeStr/2) maxKMP = kmp[i];
+  }
+
+  string resp;
+  for(ll i = kmp[sizeStr-1] ; str[i] != '$' ; i++){
+    resp.append(str, i, 1);
+  }
+  //cout << maxKMP << endl;
+  //cout << resp << endl;
+
+  //for(ll num : kmp){
+  //  cout << num << " ";
+  //}
+  //cout << endl;
+  return resp;
+}
+
+void kmp(string text, string pattern, vector<ll> kmp){
+
+  ll sizeText = (ll)text.size();
+  ll sizePattern = (ll)pattern.size();
+  ll j = 0;
+  
+  for(ll i = 1 ; i < sizeText ; i++){
+
+    
+
+    while(j > 0 && text[i] != pattern[j]){
+      j = kmp[j-1];
+    }
+    if(text[i] == pattern[j]){
+      j++;
+    }
+    if(j == sizePattern){
+      // Achou
+      j = kmp[j-1];
+    }
+  }
+}
+
+bool isPalindrome(string str, ll i, ll j){
+
+  while(i < j){
+    if(str[i] == str[j]){
+      i++;
+      j--;
+    } else {
+      return false;
+    }
+  }
+  return true;
+}
+
+/*void solve(string str){
+
+  ll sizeStr = (ll)str.size();
+
+  ll num = 0;
+  for(ll i = 0 ; i < sizeStr ; i++){
+    if(isPalindrome(str, i, sizeStr-1)){
+      num = i;
+      break;
+    }
+  }
+
+  for(ll i = num-1 ; i >= 0 ; i--){
+    str.append(str, i, 1);
+  }
+  cout << str << endl;
+  
+}*/
+
+int main() {
+
+  string str;
+  while(cin >> str){
+    string backup = str;
+    ll sizeStr = (ll)str.size();
+    reverse(str.begin(), str.end());
+    str.append("$", 0, 1);
+    for(ll i = sizeStr-1 ; i >= 0 ; i--){
+      str.append(str, i, 1);
+    }
+    //cout << str << endl;
+    string resp = createTable(str);
+    backup.append(resp, 0, (ll)resp.size());
+    cout << backup << endl;
+  }
+
+}

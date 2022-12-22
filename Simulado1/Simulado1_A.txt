@@ -1,0 +1,37 @@
+#include <iostream>
+
+int numImp(int P, int V , int T);
+
+int main() {
+  
+  int nProb = 0;
+  
+  int P = 0;
+  int V = 0;
+  int T = 0;
+
+  int acc = 0;
+  
+  std::cin >> nProb;
+
+  for(int i = 0; i < nProb ; i++){
+
+    std::cin >> P >> V >> T;
+
+    acc += numImp(P,V,T);
+      
+  }
+
+  std::cout <<  acc;
+}
+
+
+int numImp(int P, int V , int T){
+
+  if((P + V + T) >= 2){
+    return 1;
+  }else{
+   return 0; 
+  }
+  
+}

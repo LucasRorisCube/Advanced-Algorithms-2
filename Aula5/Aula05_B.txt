@@ -1,0 +1,55 @@
+#include <cstdio>
+#include <cstring>
+#include <vector>
+#include <queue>
+#include <cmath>
+#include <algorithm>
+using namespace std ;
+#define LL __int64
+#define INF 0x3f3f3f3f
+#define PI acos(-1.0)
+LL a[200010] , b[200010] , id[200010] ;
+LL l[200010] , r[200010] ;
+LL n , m , k ;
+LL search1(LL x) {
+    int low = 0 , mid , high = m-1 ;
+    while( low <= high ) {
+        mid = (low + high)/2 ;
+        if( b[mid] == x ) return mid ;
+        else if( b[mid] < x )
+            low = mid+1 ;
+        else
+            high = mid-1 ;
+    }
+    return -1 ;
+}
+int main() {
+    LL i , j , x , y ;
+    LL ans = 0 ;
+    scanf("%I64d %I64d", &n, &k) ;
+    for(i = 0 ; i < n ; i++) {
+        scanf("%I64d", &a[i]) ;
+        b[i] = a[i] ;
+    }
+    sort(b,b+n) ;
+    m = unique(b,b+n) - b ;
+    memset(l,0,sizeof(l)) ;
+    memset(r,0,sizeof(r)) ;
+    for(i = 0 ; i < n ; i++) {
+        id[i] = search1(a[i]) ;
+        r[ id[i] ]++ ;
+    }
+    for(i = 0 ; i < n ; i++) {
+        r[ id[i] ]-- ;
+        if( a[i]%k == 0 ) {
+            x = search1(a[i]/k) ;
+            y = search1(a[i]*k) ;
+            if( x != -1 && y != -1 ) {
+                ans += l[x]*r[y] ;
+            }
+        }
+        l[ id[i] ]++ ;
+    }
+    printf("%I64d\n", ans) ;
+    return 0 ;
+}

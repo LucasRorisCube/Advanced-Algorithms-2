@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+#define ll long long
+using namespace std;
+
+string solve(string str){
+
+  ll sizeStr = (ll)str.size();
+
+  int playerMove = 0;     //0 == Alice, 1 == Bob
+  for(ll i = 0 ; i < sizeStr ; i++){
+
+    if(playerMove == 0){
+
+      if(str[i] == 'a') str[i] = 'b';
+      else str[i] = 'a';
+
+      playerMove = 1;
+      
+    } else {
+      if(str[i] == 'z') str[i] = 'y';
+      else str[i] = 'z';
+
+      playerMove = 0;
+    }
+    
+  }
+  return str;
+}
+
+int main() {
+
+  int t;
+  cin >> t;
+
+  for(int k = 0 ; k < t ; k++){
+
+    string str;
+    cin >> str;
+
+    cout << solve(str) << endl;
+
+    
+  }
+}

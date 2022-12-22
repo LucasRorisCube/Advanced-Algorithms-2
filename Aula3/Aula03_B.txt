@@ -1,0 +1,34 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void recursion(string word, string currentWord, int letterPosition){
+
+  if(letterPosition >= word.size()) return;
+  
+  for(int i = 0 ; i <= currentWord.size() ; i++){
+    string aux = currentWord;
+    string aux2(1, word[letterPosition]);
+    aux.insert(i, aux2);
+    if(aux.size() == word.size()) cout << aux << endl;
+    recursion(word, aux, letterPosition+1);
+  }
+}
+
+int main() {
+
+  string word;
+  int flag = 0;
+  while(cin >> word){
+
+    if(flag == 1){
+      cout << endl;
+    }
+    
+    string aux(1, word[0]);
+    recursion(word, aux, 1);
+    
+    flag = 1;
+  }
+}

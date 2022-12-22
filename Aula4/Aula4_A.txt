@@ -1,0 +1,76 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+long long recursion(vector<long long>& vec){
+  
+  long long sizeVec = (long long)vec.size();
+
+  if(sizeVec <= 1) return 0;
+  // Dividir em dois vetores
+  int lenLeft = sizeVec/2;
+  int lenRight = sizeVec - lenLeft;
+
+  vector<long long> vecLeft(lenLeft);
+  vector<long long> vecRight(lenRight);
+  for(long long i = 0 ; i < sizeVec ; i++){
+    if(i < lenLeft){
+      vecLeft[i] = vec[i];
+    } else {
+      vecRight[i-lenLeft] = vec[i];
+    }
+  }
+  
+  // Recursao para ordenar
+  long long crossingLeft = recursion(vecLeft);
+  long long crossingRight = recursion(vecRight);
+  // Juntar contando inversao
+
+  vec.clear();
+
+  long long countLeft = 0;
+  long long countRight = 0;
+  long long crossing = 0;
+  while(countLeft < lenLeft && countRight < lenRight){
+    if(vecLeft[countLeft] < vecRight[countRight]){
+      vec.push_back(vecLeft[countLeft]);
+      countLeft += 1;
+    } else {
+      vec.push_back(vecRight[countRight]);
+      countRight += 1;
+      crossing += lenLeft-countLeft;
+    }
+  }
+
+  while(countLeft < lenLeft){
+    vec.push_back(vecLeft[countLeft]);
+    countLeft += 1;
+  }
+
+  while(countRight < lenRight){
+    vec.push_back(vecRight[countRight]);
+    countRight += 1;
+  }
+
+  return crossing+crossingLeft+crossingRight;
+}
+
+int main() {
+
+  long long t;
+  cin >> t;
+
+  for(long long c = 0 ; c < t ; c++){
+
+    long long n;
+    cin >> n;
+
+    vector<long long> vec(n);
+
+    for(long long i = 0 ; i < n ; i++) cin >> vec[i];
+    
+    cout << recursion(vec) << endl;
+    
+  }
+}

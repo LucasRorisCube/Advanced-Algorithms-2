@@ -1,0 +1,118 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+using namespace std;
+
+int main() {
+
+  long long n;
+  cin >> n;
+
+  vector<long long> vec(n);
+  long long max = -1;
+  for(long long i = 0; i < n ; i++){
+    long long aux;
+    cin >> aux;
+    vec[i] = aux;
+    if(aux > max){
+      max = aux;
+    }
+  }
+
+  map<int, int> memo;
+
+  //for(long long i = 0 ; i < (long long)memo.size() ; i++){
+  //  memo[i] = pair<long long, long long>(0,-1);
+  //}
+
+  long long indexMaxMemo = -1;
+  for(long long i = 0 ; i < (long long)vec.size() ; i++){
+    
+    //if(memo[vec[i]-1].first+1 > memo[vec[i]].first){
+      
+      memo[vec[i]] = memo[vec[i]-1]+1;
+      
+    //}
+    if(indexMaxMemo == -1) indexMaxMemo = vec[i];
+    if(memo[vec[i]] > memo[indexMaxMemo]){
+      indexMaxMemo = vec[i];
+    }
+  }
+
+  cout << memo[indexMaxMemo] << endl;
+  /*
+  vector<long long> answer;
+  long long aux = memo[indexMaxMemo].first;
+  long long required = memo[indexMaxMemo-aux+1].first;
+  while(aux != 0){
+    if(memo[indexMaxMemo-aux+1].first == required){
+      answer.push_back(memo[indexMaxMemo-aux+1].second+1);
+      cout << memo[indexMaxMemo-aux+1].second+1 << " ";
+      required++;
+    }
+    aux--;
+  }
+  cout << endl;
+  */
+  long long search = indexMaxMemo - memo[indexMaxMemo]+1;
+  for(long long i = 0; i < n ; i++){
+    //cout << vec[i] << "/" << search <<endl;
+    if(vec[i] == search){
+      cout << i+1 << " ";
+      search++;
+    }
+  }
+  cout << endl;
+  
+}
+/*
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+#ifdef _DEBUG
+	freopen("input.txt", "r", stdin);
+//	freopen("output.txt", "w", stdout);
+#endif
+
+	int n;
+	scanf("%d", &n);
+	vector<int> a(n);
+	for (int i = 0; i < n; ++i)
+		scanf("%d", &a[i]);
+	
+	map<int, int> dp;
+	
+	int ans = 0;
+	int lst = 0;
+	for (int i = 0; i < n; ++i) {
+		int x = a[i];
+		dp[x] = dp[x - 1] + 1;
+		if (ans < dp[x]) {
+			ans = dp[x];
+			lst = x;
+		}
+	}
+	
+	vector<int> res;
+	for (int i = n - 1; i >= 0; --i) {
+		if (a[i] == lst) {
+			res.push_back(i);
+      cout << lst << endl;
+			--lst;
+		}
+	}
+	reverse(res.begin(), res.end());
+	
+	printf("%d\n", ans);
+	for (auto it : res)
+		printf("%d ", it + 1);
+	puts("");
+	
+	return 0;
+}
+*/

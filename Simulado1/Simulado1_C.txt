@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+
+int main() {
+
+  long long n, k;
+  cin >> n >> k;
+
+  vector<long long> heights(n);
+  for(long long i = 0 ; i < n ; ++i) cin >> heights[i];
+
+  
+  long long sum = 0;
+  
+  
+  for(long long i = 0 ; i < k ; ++i) sum += heights[i];
+  
+  long long minSum = sum;
+  long long answer = 0;
+  
+  for(long long i = k ; i < n ; ++i){
+    
+    sum += heights[i];
+    sum -= heights[i-k];
+    //cout << i-k+1+1 << "/" << sum << endl;
+    if(sum < minSum){
+      minSum = sum;
+      answer = i-k+1;
+    }
+  }
+  
+  cout << answer+1 << endl;
+}

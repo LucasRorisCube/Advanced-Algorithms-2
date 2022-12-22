@@ -1,0 +1,52 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <queue>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+  priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>> ,greater<pair<int,pair<int,int>>>> queue;
+
+  int Q_num;
+  int period;
+  string aux;
+  cin >> aux;
+
+  while(aux != "#"){
+    cin >> Q_num >> period;
+
+    queue.push(pair<int,pair<int,int>>(period, pair<int,int>(Q_num, period)));
+
+    cin >> aux;
+  }
+
+  int n;
+  cin >> n;
+
+  long long current = 0;
+  while(n > 0){
+    
+    pair<int,pair<int,int>> aux = queue.top();
+    queue.pop();
+
+    //cout << aux.first << "/" << aux.second.first << ":" << aux.second.second << endl;
+
+    cout << aux.second.first << endl;
+
+    aux.first += aux.second.second;
+    
+    queue.push(aux);
+    
+    
+    n--;
+  }
+  
+
+  
+    
+  
+}
